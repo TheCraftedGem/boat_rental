@@ -22,7 +22,28 @@ class DockTest < Minitest::Test
     assert_equal 3, @dock.max_rental_time
   end
 
+  def test_dock_inventory_start_empty
+    assert_equal({}, @dock.boat_inventory)
+  end
+
+  def test_adding_to_inventory
+    @dock.add_to_inventory(@kayak_1.type, @kayak_1.price_per_hour)
+    assert :kayak, @dock.boat_inventory.keys
+  end
+
+  def test_add_multiple_boats_to_inventory
+    @dock.add_to_inventory(@kayak_1.type, @kayak_1.price_per_hour) 
+    @dock.add_to_inventory(@canoe.type, @canoe.price_per_hour)
+    @dock.add_to_inventory(@sup_1.type, @sup_1.price_per_hour)
+    assert_equal 3, @dock.boat_inventory.keys.length
+  end
+
   def test_rent_to_first_customer
+    skip
+   @dock.add_to_inventory(@kayak_1.type, @kayak_1.price_per_hour) 
+   @dock.add_to_inventory(@canoe.type, @canoe.price_per_hour)
+   @dock.add_to_inventory(@sup_1.type, @sup_1.price_per_hour)
+
    @dock.rent(@kayak_1, @patrick)
    @dock.rent(@kayak_2, @patrick)
    @dock.log_hour
